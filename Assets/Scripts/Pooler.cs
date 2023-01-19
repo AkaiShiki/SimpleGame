@@ -55,8 +55,13 @@ public class Pooler : MonoBehaviour
 
     public void GetPooledObject()
     {
-        disabledObjects[0].transform.position = SetPosition();
-        disabledObjects[0].SetActive(true);
-        disabledObjects.RemoveAt(0);
+        
+        if (disabledObjects.Count > 0)
+        {
+            disabledObjects[0].transform.position = SetPosition();
+            disabledObjects[0].SetActive(true);
+            disabledObjects.RemoveAt(0);
+        }
+        else Debug.Log(transform.name + " n'a plus d'objets inactifs à faire spawner.");
     }
 }

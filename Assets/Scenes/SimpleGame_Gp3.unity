@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToPool: {fileID: 4204800532750758643, guid: d1d8059811db42e49a9864c9fd45046b, type: 3}
-  _amountToPool: 5
+  _amountToPool: 25
   _distanceMin: -25
   _distanceMax: 25
   _distanceY: 0.6
@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToPool: {fileID: 4204800532750758643, guid: d1d8059811db42e49a9864c9fd45046b, type: 3}
-  _amountToPool: 5
+  _amountToPool: 15
   _distanceMin: -25
   _distanceMax: 25
   _distanceY: 0.6
@@ -301,10 +301,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16f3ca18e1f21143a73e55304b54def, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _intervalEnemies: 10
-  _intervalMinEnemies: 15
-  _intervalItems: 40
-  _intervalMaxItems: 30
+  _intervalEnemies: 20
+  _intervalMinEnemies: 10
+  _intervalItems: 20
+  _intervalMaxItems: 60
   _poolerProjectile: {fileID: 231535247}
   _poolerItems: {fileID: 1130240571}
   _poolerEnemies: {fileID: 321302316}
