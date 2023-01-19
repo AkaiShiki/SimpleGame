@@ -6,17 +6,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-    private float SprintSpeed = 30;
-    private float MoveSpeed = 5;
-    private float JumpHeight = 2;
-    private float Gravity = -15;
+    [SerializeField] private FloatVariable Stamina;
+    [SerializeField] private IntVariable PlayerHP;
+    [SerializeField] private LayerMask GroundLayers;
+    [SerializeField] private Spawner Spawner;
+
+    [SerializeField] private float SprintSpeed = 30;
+    [SerializeField] private float MoveSpeed = 5;
+    [SerializeField] private float JumpHeight = 2;
+    [SerializeField] private float Gravity = -15;
 
     private bool _isSprinting;
-    private float _stamina = 5; // 10 sec of running
-    private float _staminaRegenCooldown = 2; // 2 secs of not running before regaining
+    [SerializeField] private float _staminaRegenCooldown = 2; // 2 secs of not running before regaining
     private float _staminaRegenCounter = 0;
-    private float _staminaUseRate = 1; // 1/sec
-    private float _staminaRegenRate = 0.5f; // 0.5/sec
+    [SerializeField] private float _staminaUseRate = 1; // 1/sec
+    [SerializeField] private float _staminaRegenRate = 0.5f; // 0.5/sec
 
 
     private bool _isGrounded;
@@ -26,16 +30,14 @@ public class PlayerManager : MonoBehaviour
     private bool _jumpInput;
 
     private CharacterController _controller;
-    private float speedChangeRate = 5;
-    private float _maxStamina = 10;
+    [SerializeField] private float speedChangeRate = 5;
+    private float _maxStamina;
 
     private float GroundedOffset = 0.1f;
     private float GroundedRadius = 1f;
-    public LayerMask GroundLayers;
 
 
     private bool _isDead = false;
-    private int _playerHP = 1; // over 0 by default
 
 
 
@@ -43,6 +45,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         _controller = GetComponent<CharacterController>();
+        _maxStamina = Stamina.Value;
     }
 
     // Update is called once per frame
@@ -66,7 +69,7 @@ public class PlayerManager : MonoBehaviour
 
     private void CheckLife()
     {
-        if(_playerHP<= 0 )
+        if(PlayerHP.Value<= 0 )
         {
             _isDead = true;
         }
@@ -75,10 +78,10 @@ public class PlayerManager : MonoBehaviour
     private void MovePlayer()
     {
         float targetSpeed;
-        if (_stamina >= 0 && _isSprinting)
+        if (Stamina.Value >= 0 && _isSprinting)
         {
              targetSpeed = SprintSpeed;
-            _stamina -= _staminaUseRate * Time.deltaTime;
+            Stamina.Value -= _staminaUseRate * Time.deltaTime;
             _staminaRegenCounter = 0;
         }
         else
@@ -114,10 +117,10 @@ public class PlayerManager : MonoBehaviour
     private void StaminaRegeneration()
     {
 
-        if(!_isSprinting && _staminaRegenCounter >= _staminaRegenCooldown && _stamina < _maxStamina)
+        if(!_isSprinting && _staminaRegenCounter >= _staminaRegenCooldown && Stamina.Value < _maxStamina)
         {
             
-            _stamina += _staminaRegenRate * Time.deltaTime;
+            Stamina.Value += _staminaRegenRate * Time.deltaTime;
         }
     }
     private void CheckGrounded()
@@ -177,7 +180,10 @@ public class PlayerManager : MonoBehaviour
 
     public void OnShoot(InputValue value)
     {
-
+        Vector3 clickPostion = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward);
+        print(clickPostion);
+        Vector3 dir = (clickPostion - clickPostion.y * Vector3.up) - (transform.position - transform.position.y * Vector3.up); // direction with 0 in the y axis
+        Spawner.SpawnBullet(transform.position, dir.normalized);
     }
 
 }
