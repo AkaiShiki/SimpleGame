@@ -267,6 +267,7 @@ MonoBehaviour:
   _animator: {fileID: 3536409191077212576}
   _HealthPlayer: {fileID: 11400000, guid: 2438bb5f7f792a74e8d84d267e63e7e7, type: 2}
   _Damage: {fileID: 11400000, guid: da9d3aa11a31671458245272b98bde06, type: 2}
+  _delayDamage: 0.5
 --- !u!1 &5512356218953819010
 GameObject:
   m_ObjectHideFlags: 0

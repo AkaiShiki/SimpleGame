@@ -20,6 +20,7 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField]  IntVariable _HealthPlayer;
     [SerializeField]  IntVariable _Damage;
+    [SerializeField] float _delayDamage;
 
     //bool _coroutine;
     Vector3 _newPosition;
@@ -112,12 +113,12 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-
+    
     IEnumerator DamageCoroutine(){
         _coroutineDamage = true;
 
         _HealthPlayer.Value -= _Damage.Value; 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(_delayDamage);
        
         _coroutineDamage = false;
 
