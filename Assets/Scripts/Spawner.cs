@@ -24,9 +24,7 @@ public class Spawner : MonoBehaviour
     {
         _timerEnemies += Time.deltaTime;
         _timerItems += Time.deltaTime;
-
-        Debug.Log(_timerItems);
-
+        
         if (_timerItems >= _intervalItems)
         {
             SpawnItems();
