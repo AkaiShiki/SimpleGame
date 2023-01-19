@@ -29,7 +29,7 @@ public class Pooler : MonoBehaviour
     {
         GameObject objectToAdd = Instantiate(objectToPool);
         //objectToAdd.transform.parent = transform;
-
+        objectToAdd.AddComponent<PoolerReference>();
         objectToAdd.GetComponent<PoolerReference>()._pooler = this;
 
         objectToAdd.transform.position = SetPosition();
