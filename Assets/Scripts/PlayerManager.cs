@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class PlayerManager : MonoBehaviour
 {
     private float SprintSpeed = 30;
     private float MoveSpeed = 5;
+    private float JumpHeight = 2;
+    private float Gravity = -15;
 
     private bool _isSprinting;
     private float _stamina = 5; // 10 sec of running
@@ -17,11 +20,24 @@ public class PlayerManager : MonoBehaviour
 
 
     private bool _isGrounded;
+    private float _verticalVelocity;
+
+    private Vector2 _moveInput;
+    private bool _jumpInput;
 
     private CharacterController _controller;
-    private Vector2 _moveInput;
     private float speedChangeRate = 5;
     private float _maxStamina = 10;
+
+    private float GroundedOffset = 0.1f;
+    private float GroundedRadius = 1f;
+    public LayerMask GroundLayers;
+
+
+    private bool _isDead = false;
+    private int _playerHP = 1; // over 0 by default
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,14 +48,43 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _staminaRegenCounter += Time.deltaTime;
-        MovePlayer();
-        StaminaRegeneration();
+        if (!_isDead)
+        {
+            _staminaRegenCounter += Time.deltaTime;
+            MovePlayer();
+            StaminaRegeneration();
+            CheckGrounded();
+            JumpAndGravity();
+            CheckLife();
+            //print(_stamina);
+        }
+        else
+        {
+            transform.eulerAngles = new Vector3(0,0,90);
+        }
     }
-    
+
+    private void CheckLife()
+    {
+        if(_playerHP<= 0 )
+        {
+            _isDead = true;
+        }
+    }
+
     private void MovePlayer()
     {
-        float targetSpeed = _isSprinting ? SprintSpeed : MoveSpeed;
+        float targetSpeed;
+        if (_stamina >= 0 && _isSprinting)
+        {
+             targetSpeed = SprintSpeed;
+            _stamina -= _staminaUseRate * Time.deltaTime;
+            _staminaRegenCounter = 0;
+        }
+        else
+        {
+            targetSpeed = MoveSpeed;
+        }
 
         if (_moveInput == Vector2.zero) targetSpeed = 0.0f;
 
@@ -63,39 +108,65 @@ public class PlayerManager : MonoBehaviour
              _speed = targetSpeed;
         }
         Vector3 inputDirection = new Vector3(_moveInput.x, 0.0f, _moveInput.y).normalized;
-        _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime)); //+ _verticalVelocity * Vector3.up * Time.deltaTime);
+        _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + _verticalVelocity * Vector3.up * Time.deltaTime);
     }
 
     private void StaminaRegeneration()
     {
-        print(_stamina);
-        if(!_isSprinting && _staminaRegenCounter >= _staminaRegenCooldown && _stamina < _maxStamina) // %% stamina regen cooldown < counter 
+
+        if(!_isSprinting && _staminaRegenCounter >= _staminaRegenCooldown && _stamina < _maxStamina)
         {
-            print("regenerating");
+            
             _stamina += _staminaRegenRate * Time.deltaTime;
         }
     }
-    public void OnMove(InputValue value)
+    private void CheckGrounded()
+    {
+        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
+        _isGrounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+        print(_isGrounded);
+    }
+    private void JumpAndGravity()
+    {
+        if (_isGrounded)
+        {
+            // stop our velocity dropping infinitely when grounded
+            if (_verticalVelocity < 0.0f)
+            {
+                _verticalVelocity = 0;
+            }
+
+            // Jump
+            if (_jumpInput)
+            {
+                print("change velocity");
+                _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity); // Gravity has to be negative for this to work
+                _jumpInput = false; 
+            }
+
+        }
+        else
+        {
+            _verticalVelocity += Gravity * Time.deltaTime; // Gravity has to be negative for this to work
+        }
+       
+    }
+        public void OnMove(InputValue value)
     {
         _moveInput = value.Get<Vector2>();
     }
 
     public void OnJump(InputValue value)
     {
-        if(_isGrounded)
-        {
-            //jump
-            _isGrounded = false;
-        }
+        _jumpInput = value.isPressed;
+        print("jump");
     }
 
     public void OnSprint(InputValue value)
     {
-        if(_stamina >= 0 && value.isPressed)
+        if(value.isPressed)
         {
             _isSprinting = true;
-            _stamina -= _staminaUseRate * Time.deltaTime;
-            _staminaRegenCounter = 0;
         }
         else
         {
