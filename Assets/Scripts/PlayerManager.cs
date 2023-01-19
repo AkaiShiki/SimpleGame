@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour
     private float MoveSpeed = 5;
 
     private bool _isSprinting;
-    private float _stamina = 10; // 10 sec of running
+    private float _stamina = 5; // 10 sec of running
     private float _staminaRegenCooldown = 2; // 2 secs of not running before regaining
     private float _staminaRegenCounter = 0;
     private float _staminaUseRate = 1; // 1/sec
@@ -69,7 +69,7 @@ public class PlayerManager : MonoBehaviour
     private void StaminaRegeneration()
     {
         print(_stamina);
-        if(!_isSprinting && _staminaRegenCounter >= _staminaRegenCooldown && _stamina <= _maxStamina) // %% stamina regen cooldown < counter 
+        if(!_isSprinting && _staminaRegenCounter >= _staminaRegenCooldown && _stamina < _maxStamina) // %% stamina regen cooldown < counter 
         {
             print("regenerating");
             _stamina += _staminaRegenRate * Time.deltaTime;
@@ -100,7 +100,6 @@ public class PlayerManager : MonoBehaviour
         else
         {
             _isSprinting = false;
-
         }
         
     }
