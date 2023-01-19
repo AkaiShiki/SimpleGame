@@ -4,39 +4,62 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Camera _cam;
-    [SerializeField] GameObject[] _poolers;
-        
-    private Pooler[] _instantiatedPoolers;
-         
-    [SerializeField] private float _spawnInterval;
-
-    private float _time = 0;
-
+    [SerializeField] private float _intervalEnemies = 10.0f;
+    [SerializeField] private float _intervalMinEnemies = 5.0f;
+    [SerializeField] private float _intervalItems = 15.0f;
+    [SerializeField] private float _intervalMaxItems = 30.0f;
+    [SerializeField] private PoolerProjectile _poolerProjectile;
+    [SerializeField] private Pooler _poolerItems;
+    [SerializeField] private Pooler _poolerEnemies;
+    private float _timerEnemies = 0;
+    private float _timerItems = 0;
 
     private void Start()
-    {        
-        _instantiatedPoolers = new Pooler[_poolers.Length];
+    {
+        _poolerItems.GetPooledObject();
+        _poolerEnemies.GetPooledObject();
+    }
 
-        for (int i = 0; i < _poolers.Length; i++)
+    private void Update()
+    {
+        _timerEnemies += Time.deltaTime;
+        _timerItems += Time.deltaTime;
+
+        Debug.Log(_timerItems);
+
+        if (_timerItems >= _intervalItems)
         {
-            GameObject pooler = Instantiate(_poolers[i], transform.position, Quaternion.identity);
-            pooler.transform.parent = transform;
+            SpawnItems();
+        }
 
-            _instantiatedPoolers[i] = pooler.GetComponent<Pooler>();
+        if (_timerEnemies >= _intervalEnemies)
+        {
+            SpawnEnemies();
         }
     }
 
-
-    void Update()
+    public void SpawnBullet()
     {
-        _time += Time.deltaTime;
+        _poolerProjectile.GetPooledObject();
+    }
 
-        if (_time >= _spawnInterval)
+    public void SpawnItems()
+    {
+        _poolerItems.GetPooledObject();
+        if (_intervalItems < _intervalMaxItems)
         {
-            int randomSpooler = Random.Range(0, _poolers.Length);
-            _instantiatedPoolers[randomSpooler].GetPooledObject();
-            _time = 0;
+            _intervalItems++;
         }
+        _timerItems = 0;
+    }
+
+    public void SpawnEnemies()
+    {
+        _poolerEnemies.GetPooledObject();
+        if (_intervalEnemies > _intervalMinEnemies)
+        {
+            _intervalEnemies--;
+        }
+        _timerEnemies = 0;
     }
 }

@@ -8,7 +8,7 @@ public class Pooler : MonoBehaviour
     private List<GameObject> disabledObjects;
 
     [SerializeField] private GameObject objectToPool;
-    [SerializeField] private int _amountToPool = 5;
+    [SerializeField] private int _amountToPool = 20;
     [SerializeField] private float _distanceMin;
     [SerializeField] private float _distanceMax;
     [SerializeField] private float _distanceY;
@@ -30,7 +30,6 @@ public class Pooler : MonoBehaviour
         GameObject objectToAdd = Instantiate(objectToPool);
         //objectToAdd.transform.parent = transform;
 
-        /* TODO: adapt component name below */
         objectToAdd.GetComponent<PoolerReference>()._pooler = this;
 
         objectToAdd.transform.position = SetPosition();
