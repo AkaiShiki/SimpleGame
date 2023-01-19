@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f127a08f1633f240a851052b021b4b5, type: 3}
   m_Name: HPfloat
   m_EditorClassIdentifier: 
-  Value: 0
+  Value: 10
