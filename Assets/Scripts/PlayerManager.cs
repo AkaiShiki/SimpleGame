@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private FloatVariable Stamina;
-    [SerializeField] private IntVariable PlayerHP;
+    [SerializeField] private FloatVariable PlayerHP;
     [SerializeField] private LayerMask GroundLayers;
     [SerializeField] private Spawner Spawner;
 
@@ -31,7 +31,8 @@ public class PlayerManager : MonoBehaviour
 
     private CharacterController _controller;
     [SerializeField] private float speedChangeRate = 5;
-    private float _maxStamina;
+    [SerializeField] int _maxHP = 100;
+    [SerializeField] float _maxStamina = 10f;
 
     private float GroundedOffset = 0.1f;
     private float GroundedRadius = 1f;
@@ -45,7 +46,8 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         _controller = GetComponent<CharacterController>();
-        _maxStamina = Stamina.Value;
+        Stamina.Value = _maxStamina;
+        PlayerHP.Value = _maxHP;
     }
 
     // Update is called once per frame
@@ -162,7 +164,6 @@ public class PlayerManager : MonoBehaviour
     public void OnJump(InputValue value)
     {
         _jumpInput = value.isPressed;
-        print("jump");
     }
 
     public void OnSprint(InputValue value)
@@ -180,9 +181,11 @@ public class PlayerManager : MonoBehaviour
 
     public void OnShoot(InputValue value)
     {
-        Vector3 clickPostion = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward);
-        print(clickPostion);
-        Vector3 dir = (clickPostion - clickPostion.y * Vector3.up) - (transform.position - transform.position.y * Vector3.up); // direction with 0 in the y axis
+        Vector3 clickPostion = Input.mousePosition;
+        Vector3 playerPosition = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 dir = (clickPostion - playerPosition); // direction with 0 in the y axis
+        Vector3 worldDir = new Vector3(dir.x, 0f, dir.y);
+        print(worldDir);
         Spawner.SpawnBullet(transform.position, dir.normalized);
     }
 

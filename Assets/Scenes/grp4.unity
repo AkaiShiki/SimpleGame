@@ -364,7 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentSlider: {fileID: 324361219}
-  SliderValue: {fileID: 11400000, guid: a22a38b8cc207eb448b194ed55eabbc0, type: 2}
+  SliderValue: {fileID: 11400000, guid: 3d4b299eeec92494fb45c432c45ba06d, type: 2}
 --- !u!1 &304486915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,7 +1652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentSlider: {fileID: 924396550}
-  SliderValue: {fileID: 11400000, guid: 9e69aee5289e3634d9d5b4d56f0feb4d, type: 2}
+  SliderValue: {fileID: 11400000, guid: 79ea758a34f2f6d498d3f508bdb017ea, type: 2}
 --- !u!1 &1721928846
 GameObject:
   m_ObjectHideFlags: 0

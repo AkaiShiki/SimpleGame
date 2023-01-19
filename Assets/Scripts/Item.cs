@@ -5,17 +5,16 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     
-    [SerializeField] GameObject Player;
     [SerializeField] private IntVariable _score;
 
-    
-      void  OnCollisionEnter(Collision other)
+
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-           _score.Value++;
+            _score.Value++;
+            gameObject.SetActive(false);
         }
-        
     }
 }
 

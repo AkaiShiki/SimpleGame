@@ -12,8 +12,8 @@ public class UiDisplay : MonoBehaviour
 
    
     [SerializeField] Slider _currentSlider;
-   
 
+    [SerializeField] float maxValue = 100f;
     public FloatVariable SliderValue;
     
 
@@ -22,7 +22,7 @@ public class UiDisplay : MonoBehaviour
 
     void Start()
     {
-        _currentSlider.maxValue = 100;
+        _currentSlider.maxValue = maxValue;
         SliderUpdate = SliderValue.Value;
         SetAndDisplaySlider();
         

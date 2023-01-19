@@ -195,7 +195,7 @@ BoxCollider:
   m_Center: {x: 0.101716876, y: 0, z: -0.07165097}
 --- !u!95 &4587772562863849617
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -212,7 +212,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &4587772562863849629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
   _distanceMaxPoint: 5
   _distanceAttack: 3
   _animator: {fileID: 4587772562863849617}
-  _HealthPlayer: {fileID: 11400000, guid: 2438bb5f7f792a74e8d84d267e63e7e7, type: 2}
+  _HealthPlayer: {fileID: 11400000, guid: 79ea758a34f2f6d498d3f508bdb017ea, type: 2}
   _Damage: {fileID: 11400000, guid: da9d3aa11a31671458245272b98bde06, type: 2}
   _delayDamage: 0.6
 --- !u!1 &5047966606992913483

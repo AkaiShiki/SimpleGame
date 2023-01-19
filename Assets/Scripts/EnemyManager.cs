@@ -18,7 +18,7 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField]  Animator _animator;
 
-    [SerializeField]  IntVariable _HealthPlayer;
+    [SerializeField]  FloatVariable _HealthPlayer;
     [SerializeField]  IntVariable _Damage;
     [SerializeField] float _delayDamage;
 
