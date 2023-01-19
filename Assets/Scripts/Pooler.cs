@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 
 public class Pooler : MonoBehaviour
 {
-    private List<GameObject> disabledObjects;
+    protected List<GameObject> disabledObjects;
 
     [SerializeField] private GameObject objectToPool;
     [SerializeField] private int _amountToPool = 20;
@@ -53,7 +53,7 @@ public class Pooler : MonoBehaviour
     }
 
 
-    public void GetPooledObject()
+    virtual public void GetPooledObject()
     {
         
         if (disabledObjects.Count > 0)

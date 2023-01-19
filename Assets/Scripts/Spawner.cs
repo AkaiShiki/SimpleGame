@@ -36,9 +36,9 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    public void SpawnBullet()
+    public void SpawnBullet(Vector3 playerPosition, Vector3 bulletDirection)
     {
-        _poolerProjectile.GetPooledObject();
+      _poolerProjectile.GetPooledObject(playerPosition, bulletDirection);      
     }
 
     public void SpawnItems()
